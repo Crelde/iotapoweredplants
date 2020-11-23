@@ -36,22 +36,22 @@ typedef enum{
 /**
  * XDK Device ID/Name.
  */
-#define DEVICE_NAME			"IotaPlants_XDK110"
+#define DEVICE_NAME			"XDK-device-id"
 
 /**
  * WLAN_CONNECT_WPA_SSID is the SSID of the WIFI network you want to connect to.
  */
-#define WLAN_SSID                        "Crelde&LinoCrib"
+#define WLAN_SSID                        "YourWifiNetwork"
 /**
  * WLAN_CONNECT_WPA_PASS is the WPA/WPA2 passphrase (pre-shared key) of your WIFI network.
  */
-#define WLAN_PSK                         "YoloSwag"
+#define WLAN_PSK                         "YourWifiPassword"
 
 /**
  * DEST_SERVER_HOST is the host name of the web server we will send HTTP requests to.
  * If you want to test this example without setting up your own server, you can use publicly available services.
  */
-#define DEST_SERVER_HOST                 "94.16.114.51"
+#define DEST_SERVER_HOST                 "192.168.0.4"
 
 /**
  * DEST_SERVER_PORT is the TCP port to which we will send HTTP requests to.
