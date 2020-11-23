@@ -9,9 +9,18 @@ The main difference between the projects is that I've added the ability to use t
 Start by taking a look at the pinout for the [XDK110](https://developer.bosch.com/documents/422133/830199/XDK110_ExtensionBus_Guide.pdf).
 We want to setup an analog sensor so we need the ADC pins (PD5 or PD6).
 
-[Here](https://developer.bosch.com/web/xdk/analog-to-digital-converter) is the documentation for the ADC on the XDK110.
+[Here](https://developer.bosch.com/web/xdk/analog-to-digital-converter) is the documentation for the ADC on the XDK110 Extension Bus.
 
-In the above link,
+In the above link you can read about how to configure the ADC. This has been done in the **External.c** file in the sensors folder.
+
+Here you can see the physical setup of the project:
+</br>
+<img src="https://i.imgur.com/zAiXOzh.jpg" width="400">
+</br>
+Click image to see higher detail
+
+This showcases the [soil sensor](https://www.banggood.com/2pcs-Soil-Hygrometer-Humidity-Detection-Module-Moisture-Sensor-Geekcreit-for-Arduino-products-that-work-with-official-for-Arduino-boards-p-1694988.html), but it would work for any other analog sensor!
+
 
 **Below are the original instructions from the iot2tangle project**
 
