@@ -1,4 +1,16 @@
-# Keepy
+# Keepy With Data Visualization
+I have extended the [Keepy project](https://github.com/iot2tangle/Keepy) from iot2tangle to include a few new endpoints, most importantly the **/viz** endpoint, that enables a user to see the sensor data sent to keepy!
+
+Here is a gif of the visualization page in action:
+![](https://i.imgur.com/oDCF556.gif)
+
+
+
+
+
+
+Below is the instructions on getting it all set up, from the [original repository](https://github.com/iot2tangle/Keepy)
+__________________________
 
 ![Keepy!](https://iot2tangle.io/assets/screenshots/keepy_header.jpg)
 
