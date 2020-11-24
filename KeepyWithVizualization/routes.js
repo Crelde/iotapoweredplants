@@ -11,17 +11,19 @@ const router = (app) => {
   });
   app.get("/viz", (request, response) => {
     response.sendFile(path.join(__dirname + "/viz.html"));
-    // fs.readFile('index.html', 'utf-8', function (err, data) {
+  });
+  app.get("/channels", (request, response) => {
+    pool.query(`SELECT DISTINCT channelId FROM messages`, (error, result) => {
+      if (error) {
+        throw error;
+      }
 
-    //   response.writeHead(200, { 'Content-Type': 'text/html' });
-    //   var chartData = [];
-    //   for (var i = 0; i < 7; i++)
-    //       chartData.push(Math.random() * 50);
-
-    //   var result = data.replace('{{chartData}}', JSON.stringify(chartData));
-    //   response.write(result);
-    //   response.end();
-    // });
+      let formattedResults = [];
+      result.forEach((element) => {
+        formattedResults.push(element.channelId);
+      });
+      response.send(formattedResults);
+    });
   });
 
   app.get("/messages", (request, response) => {

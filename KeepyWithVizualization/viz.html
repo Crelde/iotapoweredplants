@@ -14,16 +14,34 @@
   </head>
   <style>
     .container {
-      width: 100%;
-      height: 100%;
+      width: 60%;
+      height: 60%;
     }
   </style>
   <body>
     <div class="container">
+      <h1>Welcome to the Keepy Visualizer</h1>
+      <p>
+        This web application showcases the data sent to keepy! Feel free to try
+        out the options below, you can select which datapoint you want to see
+        visualized and how many datapoints.
+      </p>
+      <p>
+        If you enable Live Refresh, new data will be shown in the graph as soon
+        as it's available from Keepy.
+      </p>
       <button onClick="startLiveRefresh()">Start live refresh</button>
       <button onClick="stopLiveRefresh()">Stop live refresh</button>
+      <select id="dataPointSelector"></select>
+      <label for="numberOfDataPoints">Number of initial data points</label>
+      <input id="numberOfDataPoints" type="number" value="20" />
       <p id="liveRefreshText"></p>
+      <label for="channelSelector"
+        >Select which channel to show data from</label
+      >
+      <select id="channelSelector"></select>
       <canvas id="myChart"></canvas>
+      <p id="verifyData"></p>
     </div>
   </body>
 
@@ -33,11 +51,65 @@
     var latestId;
     var refresherId;
     var keepyUrl = "http://localhost:3002";
+    var streamExplorerUrl = "https://explorer.iot2tangle.io/channel/";
+    var dataPoints = [];
 
     // On load function
     $(function () {
-      var data = setUp(10);
+      // Load channels from keepy
+      getChannels();
+      // set up initial graph from default options
+      var numberOfDatapoints = $("#numberOfDataPoints").val();
+      setUp(numberOfDatapoints);
+
+      // Here is a bunch of listeners so we update the graph when any setting is changed
+      $("#dataPointSelector").on("change", function () {
+        var numberOfDatapoints = $("#numberOfDataPoints").val();
+        setUp(numberOfDatapoints);
+      });
+      $("#numberOfDataPoints").on("change", function () {
+        var numberOfDatapoints = $("#numberOfDataPoints").val();
+        setUp(numberOfDatapoints);
+      });
+      $("#channelSelector").on("change", function () {
+        var channel = $(this).val();
+        if (channel.length == 105) {
+          // if the user selects a channel we give them a link so they can verify the data on the tangle
+          $("#verifyData").html(
+            'Verify that the data hasnt been tampered with by checking the  <a id="verifyDataLink" href="' +
+              streamExplorerUrl +
+              channel +
+              '">tangle data stream</a>'
+          );
+        } else {
+          $("#verifyData").html("");
+        }
+
+        var numberOfDatapoints = $("#numberOfDataPoints").val();
+        setUp(numberOfDatapoints);
+      });
     });
+
+    // Get all channelIds from Keepy
+    function getChannels() {
+      $.ajax({
+        dataType: "json",
+        async: false,
+        url: keepyUrl + "/channels",
+        success: function (data) {
+          var dropdown = $("#channelSelector");
+          dropdown
+            .empty()
+            .append('<option value="all">All</option>')
+            .append(function () {
+              return data.map(function (el, i) {
+                if (el.length == 105) return new Option(el, el); // we check that the channel has the correct length, to avoid getting the "error message" channel names
+              });
+            });
+        },
+      });
+    }
+
     // initiates the live refreshing
     function startLiveRefresh() {
       $("#liveRefreshText").text("Live refreshing..");
@@ -52,7 +124,8 @@
     }
 
     // init the chart, this is where you can customize the visual appearance of the chart
-    function renderChart(data, labels) {
+    function renderChart(data, labels, title) {
+      if (chart) chart.destroy(); // If already exists destory it so we can recreate the new one
       var ctx = document.getElementById("myChart").getContext("2d");
       chart = new Chart(ctx, {
         type: "line",
@@ -62,8 +135,15 @@
               {
                 type: "time",
                 time: {
-                  unit: "minute",
+                  minUnit: "minute",
                 },
+              },
+            ],
+            yAxes: [
+              {
+                id: "A",
+                type: "linear",
+                position: "left",
               },
             ],
           },
@@ -72,8 +152,10 @@
           labels: labels,
           datasets: [
             {
-              backgroundColor: "#e755ba",
-              label: "Millilux (light)",
+              yAxisID: "A",
+              borderColor: "#118CFE",
+              backgroundColor: "#118CFE",
+              label: title,
               data: data,
             },
           ],
@@ -81,26 +163,56 @@
       });
     }
     // This is the initial setup function that renders our chart and gets the first datapoints
-    function setUp(limit) {
+    function setUp(limit, type) {
+      var channelId = "";
+      var selectedChannel = $("#channelSelector").val();
+      if (selectedChannel != "all") {
+        channelId = "&channelId=" + selectedChannel;
+      }
       $.ajax({
         dataType: "json",
         async: false,
-        url: keepyUrl + "/messages?limit=" + limit,
+        url: keepyUrl + "/messages?limit=" + limit + channelId,
         success: function (data) {
-          console.log(data);
           latestId = data[0].id;
+          if (dataPoints.length == 0) {
+            initValues(data);
+          }
           var d = splitData(data);
-          console.log(d);
-          renderChart(d.data, d.labels);
+          renderChart(d.data, d.labels, d.title);
         },
       });
     }
-    // Function to be called to refresh the data in the charts
+
+    // this function parses a sample iot2tangle json payload and constructs the sensor select based on the data
+    function initValues(data) {
+      $.each(data[0].message.iot2tangle, function (iterator, item) {
+        $.each(item.data, function (iter, it) {
+          dataPoints.push({
+            id: iterator + "_" + iter,
+            name: item.sensor + "(" + Object.keys(it)[0] + ")",
+          });
+        });
+      });
+      var dropdown = $("#dataPointSelector");
+      dropdown.empty().append(function () {
+        return dataPoints.map(function (el, i) {
+          return new Option(el.name, el.id);
+        });
+      });
+    }
+    // This function enables us to add new data to the existing graph without drawing it all over again.
     function getLiveData(limit) {
+      var channelId = "";
+      var selectedChannel = $("#channelSelector").val();
+      if (selectedChannel != "all") {
+        channelId = "&channelId=" + selectedChannel;
+      }
+
       $.ajax({
         dataType: "json",
         async: false,
-        url: keepyUrl + "/messages?limit=" + limit,
+        url: keepyUrl + "/messages?limit=" + limit + channelId,
         success: function (data) {
           var d = splitData(data);
 
@@ -123,27 +235,40 @@
         },
       });
     }
+
     // Adds more data to an existing chart given the chart and the data.
     function addData(chart, labels, data) {
       chart.data.labels.push.apply(chart.data.labels, labels);
-      chart.data.datasets.forEach((dataset) => {
-        dataset.data.push.apply(dataset.data, data);
-      });
+      chart.data.datasets[0].data.push.apply(chart.data.datasets[0].data, data);
       chart.update();
     }
 
     // Parse the iot2tangle json standard into data for the graphs.
     function splitData(data) {
-      var sensors = data[0].message.iot2tangle.map((a) => a.sensor); // This gets all available sensors
-      var lightData = [];
-      var timeData = [];
-      $.each(data, function (i, v) {
-        lightData.push(v.message.iot2tangle[4].data[0].milliLux);
-        timeData.push(moment.unix(v.message.timestamp).toDate());
+      var selectedOption = $("#dataPointSelector").val().split("_"); // Split to get which sensor [0] and which parameter [1] in case there is more per sensor
+      var selectedSensor = selectedOption[0]; // Used to see which sensor to visualize
+      var selectedParameterForSensor = selectedOption[1]; // Used to see which parameter of the sensor to visualize
+
+      var selectedText = $("#dataPointSelector option:selected").text(); // Get the selected text to display the legend in the graph
+      var sensorData = []; // placeholder for sensordata
+      var timeData = []; // placeholder for timedata
+      $.each(data, function (iter, item) {
+        // In case the sensor data point doesn't exist
+        if (item.message.iot2tangle[selectedSensor]) {
+          datapoint =
+            item.message.iot2tangle[selectedSensor].data[
+              selectedParameterForSensor
+            ];
+
+          sensorData.push(datapoint[Object.keys(datapoint)[0]]);
+          timeData.push(moment.unix(item.message.timestamp).toDate());
+        }
       });
+      // We have to reverse the data order due to the order after pushing it to our arrays
       var preparedData = {
-        data: lightData.reverse(),
+        data: sensorData.reverse(),
         labels: timeData.reverse(),
+        title: selectedText,
       };
       return preparedData;
     }
