@@ -1,3 +1,8 @@
+*/build/*
+*/sdkconfig
+*.old
+
+
 node_modules/
 
 .env
