@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Keepy data visualizer</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js"></script>
+    <!--ChartJS CDN-->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- jQuery CDN-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <!-- Moment CDN-->
+  </head>
+  <style>
+    .container {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <button onClick="startLiveRefresh()">Start live refresh</button>
+      <button onClick="stopLiveRefresh()">Stop live refresh</button>
+      <p id="liveRefreshText"></p>
+      <canvas id="myChart"></canvas>
+    </div>
+  </body>
+
+  <script>
+    // global variables definitinos
+    var chart;
+    var latestId;
+    var refresherId;
+    var keepyUrl = "http://localhost:3002";
+
+    // On load function
+    $(function () {
+      var data = setUp(10);
+    });
+    // initiates the live refreshing
+    function startLiveRefresh() {
+      $("#liveRefreshText").text("Live refreshing..");
+      refresherId = setInterval(function () {
+        getLiveData(1);
+      }, 2000);
+    }
+    // stops the live refreshing
+    function stopLiveRefresh() {
+      $("#liveRefreshText").text("Live refresh was stopped");
+      clearInterval(refresherId);
+    }
+
+    // init the chart, this is where you can customize the visual appearance of the chart
+    function renderChart(data, labels) {
+      var ctx = document.getElementById("myChart").getContext("2d");
+      chart = new Chart(ctx, {
+        type: "line",
+        options: {
+          scales: {
+            xAxes: [
+              {
+                type: "time",
+                time: {
+                  unit: "minute",
+                },
+              },
+            ],
+          },
+        },
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              backgroundColor: "#e755ba",
+              label: "Millilux (light)",
+              data: data,
+            },
+          ],
+        },
+      });
+    }
+    // This is the initial setup function that renders our chart and gets the first datapoints
+    function setUp(limit) {
+      $.ajax({
+        dataType: "json",
+        async: false,
+        url: keepyUrl + "/messages?limit=" + limit,
+        success: function (data) {
+          console.log(data);
+          latestId = data[0].id;
+          var d = splitData(data);
+          console.log(d);
+          renderChart(d.data, d.labels);
+        },
+      });
+    }
+    // Function to be called to refresh the data in the charts
+    function getLiveData(limit) {
+      $.ajax({
+        dataType: "json",
+        async: false,
+        url: keepyUrl + "/messages?limit=" + limit,
+        success: function (data) {
+          var d = splitData(data);
+
+          // Normal update, we are looking for the next available dataset.
+          if (limit === 1) {
+            var newId = data[0].id; // Get the id of the new message to check if its actually new
+            var idDifference = newId - latestId; // if 0, then we have all the most recent data, if 1 then this is a new dataset we should use, if more than 1 we are missing data
+            if (idDifference == 1) {
+              addData(chart, d.labels, d.data);
+              latestId = newId;
+            }
+            if (idDifference > 1) {
+              getLiveData(idDifference); // Call this method again but with another limit so we get the missing data points
+            }
+          } else {
+            // This is the get up to speed code (when limit was more than 1)
+            addData(chart, d.labels, d.data);
+            latestId = data[0].id; // remember to set latestId
+          }
+        },
+      });
+    }
+    // Adds more data to an existing chart given the chart and the data.
+    function addData(chart, labels, data) {
+      chart.data.labels.push.apply(chart.data.labels, labels);
+      chart.data.datasets.forEach((dataset) => {
+        dataset.data.push.apply(dataset.data, data);
+      });
+      chart.update();
+    }
+
+    // Parse the iot2tangle json standard into data for the graphs.
+    function splitData(data) {
+      var sensors = data[0].message.iot2tangle.map((a) => a.sensor); // This gets all available sensors
+      var lightData = [];
+      var timeData = [];
+      $.each(data, function (i, v) {
+        lightData.push(v.message.iot2tangle[4].data[0].milliLux);
+        timeData.push(moment.unix(v.message.timestamp).toDate());
+      });
+      var preparedData = {
+        data: lightData.reverse(),
+        labels: timeData.reverse(),
+      };
+      return preparedData;
+    }
+  </script>
+</html>
