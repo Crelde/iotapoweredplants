@@ -43,13 +43,14 @@ This page also enables the user to verify that the data hasn't been tampered wit
 
 # Bill of Materials
 ## XDK110 sensor setup
-* 1x XDK 110
-* 1x Soil Sensor
+* 1x [XDK 110](https://developer.bosch.com/web/xdk/buy)
+* 1x [Soil Sensor](https://www.banggood.com/20Pcs-Soil-Hygrometer-Humidity-Detection-Module-Moisture-Sensor-p-1023059.html)
 * Jumper Wires
 ## ESP32 Controller setup
-* 1x ESP32 Development board
-* 1x Single Channel Relay Module
-* 1x Submersible Water Pump
+* 1x [ESP32 Development board](https://minielektro.dk/esp32-udviklingskort-med-wifi-bluetooth.html)
+* 1x [Single Channel Relay Module](https://www.banggood.com/1-Channel-5V-Relay-Control-Module-Low-Level-Trigger-Optocoupler-Isolation-p-1556669.html)
+* 1x [Submersible Water Pump](https://www.amazon.com/Priming-Water-Cooled-Cooling-Circulation-Interface/dp/B07FMR73ZF)
+* 1meter of PVC tube 5/16
 * Jumper Wires
 
 # Ideas for further work
