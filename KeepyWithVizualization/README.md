@@ -4,9 +4,7 @@ I have extended the [Keepy project](https://github.com/iot2tangle/Keepy) from io
 Here is a gif of the visualization page in action:
 ![](https://i.imgur.com/oDCF556.gif)
 
-
-
-
+In order to set up the /viz page correctly you HAVE to edit the **viz.html** file on line 53 to input your own Keepy Url after setting it up! :)
 
 
 Below is the instructions on getting it all set up, from the [original repository](https://github.com/iot2tangle/Keepy)
