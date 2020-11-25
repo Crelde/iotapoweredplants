@@ -1,10 +1,11 @@
 # Iota Powered Plants
 Welcome to my Hackathon entry for the [iot2tangle hackathon](https://hackathon.iot2tangle.io/) in the Smart Agriculture category!
+My name is Christian and my technical background is that I am a software developer in a global bioscience company. I am 28 years old and got my masters from the IT University of Copenhagen. In my daily life i spend most of my time developing digital services for our end customers. I have a big passion for DLT and have been following iota for a long time. I have very happy to be able to dip my toes in the water and try out integrating something with iota. I am a huge fan of data being more accessible, widespread and less silo'ed, so naturally this is a hackathon I HAD to participate in!  
 
 ## Purpose
 I set out to create a project to monitor and control my basil plants! This is just a small scale project, but the idea is to illustrate how this setup could be used in for example an Indoor/Vertical Farming plant. There are a number of reasons why this would be a real benefit for businesses in this segment:
 * There is a lot of datapoints to monitor the production.
-* It could make production more autonomous.
+* It could make production more autonomous, by utilizing the datapoints and tailor the watering/fertilizing directly to the individual plant.
 * It would be possible to provide **tamperproof data** about the plants to end-consumers since the data is on the Iota tangle.
 
 There might be some differences to my basil plant and indoor farming plants. Many indoor farming plants doesn't use soil, but instead of the soil sensor that I am showcasing it could just as well be a pH sensor.
