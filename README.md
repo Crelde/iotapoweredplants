@@ -26,9 +26,12 @@ In order to act on the data points, I have used the [ESP32 http-receiver](https:
 
 # Extended Keepy
 I have modified the [Keepy project](https://github.com/iot2tangle/Keepy) to include a visualization page! You can setup this version and you will have a new endpoint on your keepy server. **/viz**. Here you will be able to see a view of your sensor data as it comes in, with option to live refresh the data! Check out the project [here](https://github.com/Crelde/iotapoweredplants/tree/main/KeepyWithVizualization) The instructions to setup is exactly the same as the original Keepy project.
-This page also enables the user to verify that the data hasn't been tampered with, by checking the tangle data stream. (You have to select a channel before the link is available)
+
 ## Here you can see a gif of the visualization page in action!
 ![](https://i.imgur.com/oDCF556.gif)
+
+## Verify Data on the Tangle
+This page also enables the user to verify that the data hasn't been tampered with, by checking the tangle data stream. (You have to select a channel before the link is available)
 
 # Bill of Materials
 ## XDK110 sensor setup
