@@ -11,20 +11,23 @@ There might be some differences to my basil plant and indoor farming plants. Man
 
 ## Component overview
 Here I have sketched the project setup, to get an initial understanding of the base components that make up the project!
+
 ![](https://i.imgur.com/FTKDHhv.png)
 
-This repository consists of a few different code projects that make up the entirety of my entry.
+Below you can read a bit more about the individual components and find the link to their project. (Or you can click the folders in the filelist)
 
-# Sensor data
+# XDK 110 with extra analog sensors
 For my IoT datapoints I've tweaked the XDK110 to work with analog sensors through the Extension Hub. Read more about it and try to check it out yourself and start sending extra datapoints to the Tangle! [Sensor Project](https://github.com/Crelde/iotapoweredplants/tree/main/XDK110_IotaPlantSensor)
 </br>
 <img src="https://i.imgur.com/zAiXOzh.jpg" width="300">
 </br>
 
-# IoT Controller
-In order to act on the data points, I have used the [ESP32 http-receiver](https://github.com/iot2tangle/ESP32/tree/main/http-receiver) project made by iot2tangle. The only changes I've made in this project is the actions, so I can turn on the water pump by listening to the Moisture sensor over Keepy. Find the project in the [http-receiver folder](https://github.com/Crelde/iotapoweredplants/tree/main/ESP32_http-receiver)
+# ESP32 Setup to control water pump based on tangle data
+In order to act on the data points, I have used the [ESP32 http-receiver](https://github.com/iot2tangle/ESP32/tree/main/http-receiver) project made by iot2tangle. The only changes I've made in this project is the actions, so I can turn on the water pump by listening to the data from the Moisture sensor.
+Whenever the ESP32 reads new sensor values, it will check if the moisture is below a certain threshold. If conditions are met the ESP32 will turn on the relay for 5 seconds. During this time the water pump will be pumping! After the 5 seconds the relay is turned off for 1 minute to give some time for the water to get into the soil so we don't flood the plant completely.
+Find the project in the [http-receiver folder](https://github.com/Crelde/iotapoweredplants/tree/main/ESP32_http-receiver)
 
-# Extended Keepy
+# Live visualizations of sensor data integrated into Keepy
 I have modified the original Keepy project from iot2tangle to include a visualization page! You can setup this version and you will have a new endpoint on your keepy server. **/viz**. Here you will be able to see a view of your sensor data as it comes in, with option to live refresh the data! Check out the project [here](https://github.com/Crelde/iotapoweredplants/tree/main/KeepyWithVizualization) The instructions to setup is exactly the same as the original Keepy project.
 
 **You can also try it out live [here](http://94.16.114.51:3002/viz) by using my keepy installation on the VPS I set up.**
