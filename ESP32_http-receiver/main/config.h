@@ -7,8 +7,8 @@
 const char *id_name = "ESP32-GETTER";
 
 /* Network Configuration */
-const char *ssid_WiFi = "";
-const char *pass_WiFi = "";
+const char *ssid_WiFi = "<YOUR WIFI NAME>";
+const char *pass_WiFi = "<YOUR WIFI PASS>";
 
 /* HTTP Endpoint Configuration */
 const char *address = "<YOUR IP>/messages/last"; /* Endpoint address (HTTP), must NOT include 'http://xxx' or 'tcp://xxx', and must include '/sensor_data' for using in I2T Gateway*/
