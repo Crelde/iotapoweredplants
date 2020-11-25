@@ -6,12 +6,12 @@ Welcome to my Hackathon entry for the [iot2tangle hackathon](https://hackathon.i
 
 **For more detailed instructions on how to set this project up yourself please visit [The Iota Powered Plants Wiki](https://github.com/Crelde/iotapoweredplants/wiki)**
 
-My name is Christian and my technical background is that I am a software developer in a global bioscience company. I am 28 years old and got my masters from the IT University of Copenhagen. In my daily life i spend most of my time developing digital services for our end customers. I have a big passion for DLT and have been following iota for a long time. I have very happy to be able to dip my toes in the water and try out integrating something with iota. I am a huge fan of data being more accessible, widespread and less silo'ed, so naturally this is a hackathon I HAD to participate in!  
+My name is Christian and I am a software developer in a global bioscience company. I am 28 years old and got my masters from the IT University of Copenhagen. In my daily life i spend most of my time developing digital services for our end customers. I have a big passion for DLT and have been following iota for a long time. I am very happy to be able to dip my toes in the water and try out integrating something with iota. I am a huge fan of data being more accessible, widespread and less silo'ed, so naturally this is a hackathon I HAD to participate in!  
 ## Demo video
 Please check [this link](https://i.imgur.com/Fvk012V.mp4) for a demonstration of the project
 
 ## Purpose
-I set out to create a project to monitor and control my basil plants! This is just a small scale project, but the idea is to illustrate how this setup could be used in for example an Indoor/Vertical Farming plant. There are a number of reasons why this would be a real benefit for businesses in this segment:
+I set out to create a project to monitor and control my basil plants! This is just a small scale project, but the idea is to illustrate how this setup could be used in, for example an Indoor/Vertical Farming plant. There are a number of reasons why this would be a real benefit for businesses in this segment:
 * There is a lot of datapoints to monitor the production.
 * It could make production more autonomous, by utilizing the datapoints and tailor the watering/fertilizing directly to the individual plant.
 * It would be possible to provide **tamperproof data** about the plants to end-consumers since the data is on the Iota tangle.
@@ -19,7 +19,7 @@ I set out to create a project to monitor and control my basil plants! This is ju
 There might be some differences to my basil plant and indoor farming plants. Many indoor farming plants doesn't use soil, but instead of the soil sensor that I am showcasing it could just as well be a pH sensor.
 
 ## Component overview
-Here I have sketched the project setup, to get an initial understanding of the base components that make up the project!
+Here I have sketched the project setup, to give you an initial understanding of the base components that make up the project!
 
 ![](https://i.imgur.com/FTKDHhv.png)
 
@@ -41,7 +41,9 @@ Find the project in the [http-receiver folder](https://github.com/Crelde/iotapow
 
 
 # Live visualizations of sensor data integrated into Keepy
-I have modified the original Keepy project from iot2tangle to include a visualization page! You can setup this version and you will have a new endpoint on your keepy server. **/viz**. Here you will be able to see a view of your sensor data as it comes in, with option to live refresh the data! Check out the project [here](https://github.com/Crelde/iotapoweredplants/tree/main/KeepyWithVizualization) The instructions to setup is exactly the same as the original Keepy project.
+I have modified the original Keepy project from iot2tangle to include a visualization page! You can setup this version and you will have a new endpoint on your keepy server. **/viz**.
+
+Here you will be able to see your sensor data as it comes in, with option to live refresh the data! Check out the project [here](https://github.com/Crelde/iotapoweredplants/tree/main/KeepyWithVizualization) The instructions to setup is exactly the same as the original Keepy project.
 
 **You can also try it out live [here](http://94.16.114.51:3002/viz) by using my keepy installation on the VPS I set up.**
 If you are lucky I am still sending data from my sensor setup! :) 
@@ -69,6 +71,6 @@ Here are some ideas that I think makes sense to further develop for this setup
 ## Integrate growth lights
 It would be cool to be able to control the lighting for the plants. I don't currently own growth lights but it would be pretty easy to hook it up to a relay and start controlling the light exposure for the plants. The XDK also has a light sensor to monitor the exposure.
 ## Analyze plant growth
-I think it would be possible to use an RGB sensor to monitor plant growth as suggested in this [research article](https://www.researchgate.net/publication/224245297_Low_cost_colour_sensors_for_monitoring_plant_growth_in_a_laboratory) that way you could try to correlate the sensor datapoints and improve the conditions for better growth. 
+I think it would be possible to use an RGB sensor to monitor plant growth as suggested in this [research article](https://www.researchgate.net/publication/224245297_Low_cost_colour_sensors_for_monitoring_plant_growth_in_a_laboratory). By gathering this information you could try to improve the conditions for better growth. 
 ## Data about fertilizer used
 Based on the sensors we could control the fertilizer by adding it to the watertank. In a bigger supply chain setup, it could also be really cool to prove that the plants have only been fertilized with organic fertilizers and no pesticides. 
