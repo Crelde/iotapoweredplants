@@ -4,6 +4,8 @@ Welcome to my Hackathon entry for the [iot2tangle hackathon](https://hackathon.i
 <img src="https://i.imgur.com/zAZC994.jpeg" width="700">
 </br>
 
+**For more detailed instructions on how to set this project up yourself please visit [The Iota Powered Plants Wiki](https://github.com/Crelde/iotapoweredplants/wiki)**
+
 My name is Christian and my technical background is that I am a software developer in a global bioscience company. I am 28 years old and got my masters from the IT University of Copenhagen. In my daily life i spend most of my time developing digital services for our end customers. I have a big passion for DLT and have been following iota for a long time. I have very happy to be able to dip my toes in the water and try out integrating something with iota. I am a huge fan of data being more accessible, widespread and less silo'ed, so naturally this is a hackathon I HAD to participate in!  
 ## Demo video
 Please check [this link](https://i.imgur.com/Fvk012V.mp4) for a demonstration of the project
