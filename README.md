@@ -56,3 +56,5 @@ Here are some ideas that I think makes sense to further develop for this setup
 It would be cool to be able to control the lighting for the plants. I don't currently own growth lights but it would be pretty easy to hook it up to a relay and start controlling the light exposure for the plants. The XDK also has a light sensor to monitor the exposure.
 ## Analyze plant growth
 I think it would be possible to use an RGB sensor to monitor plant growth as suggested in this [research article](https://www.researchgate.net/publication/224245297_Low_cost_colour_sensors_for_monitoring_plant_growth_in_a_laboratory) that way you could try to correlate the sensor datapoints and improve the conditions for better growth. 
+## Data about fertilizer used
+Based on the sensors we could control the fertilizer by adding it to the watertank. In a bigger supply chain setup, it could also be really cool to prove that the plants have only been fertilized with organic fertilizers and no pesticides. 
