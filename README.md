@@ -33,6 +33,10 @@ For my IoT datapoints I've tweaked the XDK110 to work with analog sensors throug
 In order to act on the data points, I have used the [ESP32 http-receiver](https://github.com/iot2tangle/ESP32/tree/main/http-receiver) project made by iot2tangle. The only changes I've made in this project is the actions, so I can turn on the water pump by listening to the data from the Moisture sensor.
 Whenever the ESP32 reads new sensor values, it will check if the moisture is below a certain threshold. If conditions are met the ESP32 will turn on the relay for 5 seconds. During this time the water pump will be pumping! After the 5 seconds the relay is turned off for 1 minute to give some time for the water to get into the soil so we don't flood the plant completely.
 Find the project in the [http-receiver folder](https://github.com/Crelde/iotapoweredplants/tree/main/ESP32_http-receiver)
+</br>
+<img src="https://i.imgur.com/J4ODtdy.jpeg" width="300">
+</br>
+
 
 # Live visualizations of sensor data integrated into Keepy
 I have modified the original Keepy project from iot2tangle to include a visualization page! You can setup this version and you will have a new endpoint on your keepy server. **/viz**. Here you will be able to see a view of your sensor data as it comes in, with option to live refresh the data! Check out the project [here](https://github.com/Crelde/iotapoweredplants/tree/main/KeepyWithVizualization) The instructions to setup is exactly the same as the original Keepy project.
